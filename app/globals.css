@@ -2,77 +2,243 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Kiosk Mode - Auto Fullscreen */
+html {
+  height: 100vh;
+  width: 100vw;
 }
 
 body {
-  color: var(--foreground);
-  /* background: var(--background); */
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Prevent scrolling */
   background-image: url('../assets/image/vector4.jpg');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* TV Optimized Layout for 1920x1080 */
+.tv-layout {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
+/* Optimized fonts for 1920x1080 - Readable from 3+ meters */
+.tv-title {
+  font-size: 2.5rem !important; /* Reduced from 4rem */
+  font-weight: 900;
+  line-height: 1.1;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #dfb631;
-  border-radius: 10px;
+.tv-subtitle {
+  font-size: 1.2rem !important; /* Reduced from 1.8rem */
+  font-weight: 600;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #c5a52a;
+/* Enhanced clock styles for maximum visibility from 3+ meters - Clean Version */
+.tv-clock {
+  font-size: 7rem !important; /* 112px - Very large for distance viewing */
+  font-weight: 900;
+  line-height: 0.9;
+  font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 0.1em;
+  /* Add pulsing animation for attention */
+  animation: clockPulse 2s ease-in-out infinite;
 }
 
-/* Islamic pattern animation */
-@keyframes islamic-glow {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(223, 182, 49, 0.3);
+@keyframes clockPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
   }
-  50% {
-    box-shadow: 0 0 20px rgba(223, 182, 49, 0.6);
+  50% { 
+    transform: scale(1.02);
+    opacity: 0.95;
+  }
+}
+
+.tv-date {
+  font-size: 1.5rem !important; /* Reduced from 2.2rem */
+  font-weight: 700;
+}
+
+.tv-hijri-date {
+  font-size: 4rem !important; /* Reduced from 6rem */
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.tv-hijri-month {
+  font-size: 1.8rem !important; /* Reduced from 2.5rem */
+  font-weight: 700;
+}
+
+.tv-prayer-name {
+  font-size: 1.8rem !important; /* Reduced from 2.8rem */
+  font-weight: 800;
+}
+
+.tv-prayer-time {
+  font-size: 2.8rem !important; /* Increased from 2.2rem */
+  font-weight: 900;
+  font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif; /* Match clock font */
+  letter-spacing: 0.05em;
+  text-stroke: 1px rgba(0,0,0,0.1);
+  -webkit-text-stroke: 1px rgba(0,0,0,0.1);
+}
+
+.tv-next-prayer {
+  font-size: 2rem !important; /* Reduced from 3.2rem */
+  font-weight: 900;
+}
+
+.tv-countdown {
+  font-size: 1.5rem !important; /* Reduced from 2.8rem */
+  font-weight: 800;
+}
+
+.tv-doa-arabic {
+  font-size: 1.5rem !important; /* Reduced from 2.5rem */
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.tv-doa-meaning {
+  font-size: 1.1rem !important; /* Reduced from 1.8rem */
+  font-weight: 600;
+}
+
+/* Remove scroll bars */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Islamic themed animations */
+@keyframes islamicGlow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(223, 182, 49, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(223, 182, 49, 0.6);
+  }
+}
+
+@keyframes prayerPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.02);
+    opacity: 0.9;
   }
 }
 
 .islamic-glow {
-  animation: islamic-glow 3s ease-in-out infinite;
-}
-
-/* Pulse animation for prayer times */
-@keyframes prayer-pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
+  animation: islamicGlow 3s ease-in-out infinite;
 }
 
 .prayer-active {
-  animation: prayer-pulse 2s ease-in-out infinite;
+  animation: prayerPulse 2s ease-in-out infinite;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Smooth transitions */
+* {
+  transition: all 0.3s ease;
 }
+
+/* High contrast for TV viewing */
+.tv-high-contrast {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Compact spacing for 1920x1080 */
+.tv-compact {
+  padding: 0.25rem !important;
+  margin: 0.125rem !important;
+}
+
+/* Optimized padding for 1920x1080 */
+.tv-padding-sm {
+  padding: 1rem !important;
+}
+
+.tv-padding-md {
+  padding: 1.5rem !important;
+}
+
+.tv-padding-lg {
+  padding: 2rem !important;
+}
+
+/* Grid layout optimization for 1920x1080 */
+.tv-grid {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: minmax(auto, 15vh) 1fr minmax(auto, 12vh);
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+/* Header optimization */
+.tv-header {
+  min-height: 80px;
+  max-height: 120px;
+}
+
+/* Main content optimization */
+.tv-main {
+  min-height: 0; /* Allow grid to shrink */
+}
+
+/* Footer optimization */
+.tv-footer {
+  min-height: 60px;
+  max-height: 100px;
+}
+
+/* Enhanced container with stronger visual emphasis */
+.tv-clock-container {
+  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,255,255,0.9));
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 
+    0 8px 32px rgba(223, 182, 49, 0.4),
+    inset 0 2px 4px rgba(255,255,255,0.8);
+  border: 3px solid rgba(223, 182, 49, 0.3);
+}
+
+/* Clean emphasis without shadow */
+.tv-clock-emphasis {
+  /* Clean dark color for maximum contrast without shadow */
+  color: #8B4513 !important; /* Dark brown for maximum contrast */
+}
+

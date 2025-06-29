@@ -23,27 +23,15 @@ export default function Home() {
   const LATITUDE = -8.0669000;
   const LONGITUDE = 111.6802500;
 
-  // Doa-doa pendek
+  // Doa rotation (simplified for TV)
   const doas = [
     {
-      arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
-      latin: "Rabbanaa aatinaa fid-dunyaa hasanatan wa fil-aakhirati hasanatan wa qinaa 'azaaban-naar",
-      meaning: "Ya Allah, berikanlah kepada kami kebaikan di dunia dan kebaikan di akhirat dan peliharalah kami dari siksa neraka"
+      arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً",
+      meaning: "Ya Allah, berikanlah kami kebaikan di dunia dan akhirat"
     },
     {
-      arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
-      latin: "Rabbish-rahli shadri wa yassirli amri",
-      meaning: "Ya Allah, lapangkanlah dadaku dan mudahkanlah urusanku"
-    },
-    {
-      arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
-      latin: "Laa hawla wa laa quwwata illa billah",
-      meaning: "Tidak ada daya dan kekuatan kecuali dengan pertolongan Allah"
-    },
-    {
-      arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا",
-      latin: "Allahumma baarik lanaa fiimaa razaqtanaa",
-      meaning: "Ya Allah, berkahilah kami dalam rezeki yang telah Engkau berikan kepada kami"
+      arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللهِ",
+      meaning: "Tidak ada daya dan kekuatan kecuali dari Allah"
     }
   ];
 
@@ -386,23 +374,22 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+    <div className="tv-layout bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
       {/* Modal Alarm Waktu Sholat */}
       {showAlarmModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-pulse">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-3xl w-full mx-4 tv-padding-lg text-center animate-pulse">
             <div className="text-6xl mb-4">🕌</div>
-            <h2 className="text-2xl font-bold text-[#dfb631] mb-2">
+            <h2 className="tv-next-prayer text-[#dfb631] mb-3">
               Waktu {currentPrayerAlert} Telah Tiba!
             </h2>
-            <p className="text-amber-700 mb-6">
-              Saatnya melaksanakan sholat {currentPrayerAlert}.<br/>
-              Ayo segera ambil wudhu dan bersiap-siap sholat.
+            <p className="text-amber-700 tv-prayer-name mb-6">
+              Saatnya melaksanakan sholat {currentPrayerAlert}
             </p>
-            <div className="space-y-3">
+            <div className="space-y-4">
               <button
                 onClick={() => setShowAlarmModal(false)}
-                className="w-full bg-[#dfb631] hover:bg-amber-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+                className="w-full bg-[#dfb631] hover:bg-amber-600 text-white py-3 px-8 rounded-2xl tv-prayer-name font-semibold transition-colors"
               >
                 Barakallahu fiik 🤲
               </button>
@@ -412,7 +399,7 @@ export default function Home() {
                   setAlarmEnabled(false);
                   localStorage.setItem('alarmEnabled', 'false');
                 }}
-                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-medium transition-colors"
+                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-8 rounded-2xl tv-subtitle font-medium transition-colors"
               >
                 Matikan Alarm
               </button>
@@ -421,181 +408,147 @@ export default function Home() {
         </div>
       )}
 
-      {/* Header */}
-      <header className="w-full bg-gradient-to-r from-[#dfb631]/30 to-amber-200/30 backdrop-blur-sm border-b border-[#dfb631]/20 p-6">
-        <div className="max-w-4xl mx-auto flex items-center justify-center space-x-6">
-          <Image src={LogoMasjid} className="w-20 h-20 object-contain islamic-glow" alt="Logo Mushola An-Nur" />
-          <div className="text-center">
-            <h1 className="font-bold text-4xl md:text-5xl text-amber-900 mb-1">Mushola An-Nur</h1>
-            <p className="text-amber-700 text-sm md:text-base font-medium">
-              RT 02/RW 01, Dusun Josari, Desa Salamrejo, Kec. Karangan, Kab. Trenggalek
-            </p>
+      {/* Header - Ultra Compact for 1920x1080 */}
+      <header className="tv-header bg-gradient-to-r from-[#dfb631]/30 to-amber-200/30 backdrop-blur-sm border-b border-[#dfb631]/20 tv-padding-sm">
+        <div className="flex items-center justify-between h-full">
+          <div className="flex items-center space-x-4">
+            <Image src={LogoMasjid} className="w-12 h-12 object-contain islamic-glow" alt="Logo Mushola An-Nur" />
+            <div>
+              <h1 className="tv-next-prayer text-amber-900">Mushola An-Nur</h1>
+              <p className="text-amber-700 tv-subtitle font-medium">
+                RT 02/RW 01, Dusun Josari, Desa Salamrejo, Trenggalek
+              </p>
+            </div>
+          </div>
+          
+          {/* Alarm Setting - Ultra Compact */}
+          <div className="flex items-center space-x-3">
+            <span className="text-amber-700 tv-subtitle font-medium">Alarm:</span>
+            <button
+              onClick={toggleAlarm}
+              className={`relative inline-flex items-center h-7 rounded-full w-14 transition-colors focus:outline-none ${
+                alarmEnabled ? 'bg-[#dfb631]' : 'bg-gray-300'
+              }`}
+            >
+              <span
+                className={`inline-block w-5 h-5 transform bg-white rounded-full transition-transform ${
+                  alarmEnabled ? 'translate-x-8' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className={`tv-subtitle font-medium ${alarmEnabled ? 'text-[#dfb631]' : 'text-gray-500'}`}>
+              {alarmEnabled ? '🔔' : '🔕'}
+            </span>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto p-4 md:p-6">
-        {/* Alarm Setting */}
-        <div className="mb-6 flex justify-center">
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#dfb631]/20 p-4">
-            <div className="flex items-center space-x-3">
-              <span className="text-amber-700 font-medium">Alarm Pengingat Sholat:</span>
-              <button
-                onClick={toggleAlarm}
-                className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none ${
-                  alarmEnabled ? 'bg-[#dfb631]' : 'bg-gray-300'
-                }`}
-              >
-                <span
-                  className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform ${
-                    alarmEnabled ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-              <span className={`text-sm font-medium ${alarmEnabled ? 'text-[#dfb631]' : 'text-gray-500'}`}>
-                {alarmEnabled ? '🔔 Aktif' : '🔕 Nonaktif'}
-              </span>
-            </div>
-            {alarmEnabled && (
-              <p className="text-xs text-amber-600 mt-2 text-center">
-                Alarm akan berbunyi tepat saat waktu sholat tiba
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Waktu Saat Ini & Tanggal Hijriyah */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* Jam Digital */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 p-6 md:p-8 text-center">
-            <h2 className="text-[#dfb631] font-bold text-xl mb-4">Waktu Saat Ini</h2>
-            <div className="text-4xl md:text-6xl lg:text-7xl font-bold text-amber-900 mb-2 font-mono">
+      {/* Main Content - Optimized Grid for 1920x1080 */}
+      <main className="tv-main flex-1 grid grid-cols-4 grid-rows-2 gap-3 tv-padding-sm">
+        {/* Clock - Enhanced for Distance Viewing */}
+        <div className="col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 tv-padding-md text-center">
+          <h2 className="text-[#dfb631] font-bold tv-prayer-name mb-2">Waktu Saat Ini</h2>
+          <div className="tv-clock-container mb-3">
+            <div className="tv-clock tv-clock-emphasis text-amber-900">
               {formatTime(currentTime)}
             </div>
-            <div className="text-amber-700 font-semibold text-base md:text-lg">
-              {formatDate(currentTime)}
-            </div>
           </div>
-
-          {/* Tanggal Hijriyah */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 p-6 md:p-8 text-center">
-            <h2 className="text-[#dfb631] font-bold text-xl mb-4">Tanggal Hijriyah</h2>
-            {hijriDate ? (
-              <>
-                <div className="text-4xl md:text-5xl font-bold text-amber-900 mb-2">
-                  {hijriDate.date}
-                </div>
-                <div className="text-amber-700 font-semibold text-base md:text-lg">
-                  {hijriDate.month.en} {hijriDate.year}
-                </div>
-                <div className="text-amber-600 text-sm mt-1">
-                  {hijriDate.weekday.en}
-                </div>
-              </>
-            ) : (
-              <div className="text-amber-600">Memuat...</div>
-            )}
+          <div className="text-amber-700 tv-date tv-high-contrast">
+            {formatDate(currentTime)}
           </div>
         </div>
 
-        {/* Sholat Berikutnya */}
-        {nextPrayer.name && (
-          <div className="bg-gradient-to-r from-[#dfb631] to-amber-500 rounded-2xl shadow-xl p-6 mb-8 text-white text-center prayer-active">
-            <h2 className="text-xl font-bold mb-2">Sholat Berikutnya</h2>
-            <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-4">
-              <div>
-                <div className="text-2xl md:text-3xl font-bold">{nextPrayer.name}</div>
-                <div className="text-lg opacity-90">{nextPrayer.time} WIB</div>
+        {/* Hijri Date - Compact */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 tv-padding-md text-center">
+          <h2 className="text-[#dfb631] font-bold tv-prayer-name mb-2">Tanggal Hijriyah</h2>
+          {hijriDate ? (
+            <>
+              <div className="tv-hijri-date text-amber-900 mb-2 tv-high-contrast">
+                {hijriDate.date}
               </div>
-              <div className="text-2xl hidden md:block">•</div>
-              <div>
-                <div className="text-lg opacity-90">Dalam</div>
-                <div className="text-xl md:text-2xl font-bold">{nextPrayer.remaining}</div>
+              <div className="text-amber-700 tv-hijri-month tv-high-contrast">
+                {hijriDate.month.en} {hijriDate.year}
               </div>
-            </div>
-          </div>
-        )}
+              <div className="text-amber-600 tv-subtitle mt-1">
+                {hijriDate.weekday.en}
+              </div>
+            </>
+          ) : (
+            <div className="text-amber-600 tv-prayer-name">Memuat...</div>
+          )}
+        </div>
 
-        {/* Jadwal Sholat */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-[#dfb631] to-amber-500 text-white text-center py-6">
-            <h2 className="text-2xl font-bold">Jadwal Sholat Hari Ini</h2>
-            <p className="opacity-90 mt-1">Lima Waktu Sholat</p>
+        {/* Next Prayer - Compact */}
+        <div className="bg-gradient-to-r from-[#dfb631] to-amber-500 rounded-2xl shadow-xl tv-padding-md text-white text-center prayer-active">
+          <h2 className="tv-prayer-name font-bold mb-2">Sholat Berikutnya</h2>
+          {nextPrayer.name && (
+            <>
+              <div className="tv-next-prayer mb-1">{nextPrayer.name}</div>
+              <div className="tv-hijri-month opacity-90 mb-2">{nextPrayer.time} WIB</div>
+              <div className="tv-countdown opacity-90">Dalam {nextPrayer.remaining}</div>
+            </>
+          )}
+        </div>
+
+        {/* Prayer Schedule - Ultra Compact */}
+        <div className="col-span-4 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 overflow-hidden">
+          <div className="bg-gradient-to-r from-[#dfb631] to-amber-500 text-white text-center py-3">
+            <h2 className="tv-next-prayer font-bold">Jadwal Sholat Hari Ini</h2>
           </div>
           
           {prayerTimes ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-1">
+            <div className="grid grid-cols-5 gap-2 tv-padding-sm">
               {[
                 { name: 'Subuh', time: prayerTimes.Fajr, icon: '🌅' },
                 { name: 'Dzuhur', time: prayerTimes.Dhuhr, icon: '☀️' },
                 { name: 'Ashar', time: prayerTimes.Asr, icon: '🌇' },
                 { name: 'Maghrib', time: prayerTimes.Maghrib, icon: '🌆' },
                 { name: 'Isya', time: prayerTimes.Isha, icon: '🌙' }
-              ].map((prayer, index) => (
+              ].map((prayer) => (
                 <div 
                   key={prayer.name} 
-                  className={`p-4 md:p-6 text-center transition-all duration-300 hover:bg-[#dfb631]/10 ${
-                    nextPrayer.name === prayer.name ? 'bg-[#dfb631]/20 ring-2 ring-[#dfb631]/50' : ''
+                  className={`tv-padding-sm text-center transition-all duration-300 rounded-xl ${
+                    nextPrayer.name === prayer.name ? 'bg-[#dfb631]/20 ring-2 ring-[#dfb631]/50' : 'hover:bg-[#dfb631]/10'
                   }`}
                 >
-                  <div className="text-2xl md:text-3xl mb-3">{prayer.icon}</div>
-                  <h3 className="font-bold text-lg md:text-xl text-amber-900 mb-2">{prayer.name}</h3>
-                  <div className="text-xl md:text-2xl font-bold text-[#dfb631] font-mono">
+                  <div className="text-4xl mb-2">{prayer.icon}</div>
+                  <h3 className="tv-prayer-name text-amber-900 mb-1">{prayer.name}</h3>
+                  <div className="tv-prayer-time text-[#dfb631] tv-high-contrast">
                     {prayer.time.substring(0, 5)}
                   </div>
-                  <div className="text-amber-600 text-sm mt-1">WIB</div>
+                  <div className="text-amber-600 tv-subtitle mt-1">WIB</div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-12 text-center text-amber-600">
-              <div className="animate-pulse">Memuat jadwal sholat...</div>
+            <div className="tv-padding-lg text-center text-amber-600">
+              <div className="animate-pulse tv-prayer-name">Memuat jadwal sholat...</div>
             </div>
           )}
         </div>
-
-        {/* Doa Harian */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 p-6 mb-8">
-          <div className="text-center mb-6">
-            <h2 className="text-[#dfb631] font-bold text-2xl mb-2">Doa Pilihan</h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-[#dfb631] to-amber-500 mx-auto rounded-full"></div>
-          </div>
-          
-          <div className="text-center space-y-4">
-            <div className="text-2xl md:text-3xl font-bold text-amber-900 leading-relaxed" style={{fontFamily: 'serif'}}>
-              {doas[currentDoaIndex].arabic}
-            </div>
-            <div className="text-amber-700 italic text-lg">
-              {doas[currentDoaIndex].latin}
-            </div>
-            <div className="text-amber-600 font-medium">
-              "{doas[currentDoaIndex].meaning}"
-            </div>
-            <div className="flex justify-center space-x-2 mt-4">
-              {doas.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentDoaIndex ? 'bg-[#dfb631]' : 'bg-amber-200'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Footer Info */}
-        <div className="text-center">
-          <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 inline-block">
-            <p className="text-amber-700 text-sm">
-              🕌 <strong>Mushola An-Nur</strong> • 📍 Desa Salamrejo, Karangan, Trenggalek
-            </p>
-            <p className="text-amber-600 text-xs mt-1">
-              "Dan dirikanlah sholat, tunaikanlah zakat, dan ruku'lah beserta orang-orang yang ruku'" - QS. Al-Baqarah: 43
-            </p>
-          </div>
-        </div>
       </main>
+
+      {/* Footer - Ultra Compact */}
+      <footer className="tv-footer bg-white/60 backdrop-blur-sm border-t border-[#dfb631]/20 tv-padding-sm">
+        <div className="text-center space-y-2">
+          <div className="tv-doa-arabic text-amber-900 tv-high-contrast" style={{fontFamily: 'serif'}}>
+            {doas[currentDoaIndex].arabic}
+          </div>
+          <div className="text-amber-600 tv-doa-meaning">
+            "{doas[currentDoaIndex].meaning}"
+          </div>
+          <div className="flex justify-center space-x-2">
+            {doas.map((_, index) => (
+              <div
+                key={index}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentDoaIndex ? 'bg-[#dfb631]' : 'bg-amber-200'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
