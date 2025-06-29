@@ -80,13 +80,13 @@ body {
 }
 
 .tv-hijri-date {
-  font-size: 4rem !important; /* Reduced from 6rem */
+  font-size: 5.5rem !important; /* Increased from 4rem to 5.5rem (88px) */
   font-weight: 900;
   line-height: 0.9;
 }
 
 .tv-hijri-month {
-  font-size: 1.8rem !important; /* Reduced from 2.5rem */
+  font-size: 2.5rem !important; /* Increased from 1.8rem to 2.5rem (40px) */
   font-weight: 700;
 }
 
@@ -105,12 +105,12 @@ body {
 }
 
 .tv-next-prayer {
-  font-size: 2rem !important; /* Reduced from 3.2rem */
+  font-size: 2.8rem !important; /* Increased from 2rem to 2.8rem (45px) */
   font-weight: 900;
 }
 
 .tv-countdown {
-  font-size: 1.5rem !important; /* Reduced from 2.8rem */
+  font-size: 2.2rem !important; /* Increased from 1.5rem to 2.2rem (35px) */
   font-weight: 800;
 }
 

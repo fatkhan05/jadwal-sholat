@@ -23,15 +23,31 @@ export default function Home() {
   const LATITUDE = -8.0669000;
   const LONGITUDE = 111.6802500;
 
-  // Doa rotation (simplified for TV)
+  // Doa rotation (6 doa pilihan untuk TV)
   const doas = [
     {
-      arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً",
-      meaning: "Ya Allah, berikanlah kami kebaikan di dunia dan akhirat"
+      arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+      meaning: "Ya Allah, berikanlah kami kebaikan di dunia dan akhirat, dan peliharalah kami dari siksa neraka"
     },
     {
-      arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللهِ",
-      meaning: "Tidak ada daya dan kekuatan kecuali dari Allah"
+      arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللهِ الْعَلِيِّ الْعَظِيمِ",
+      meaning: "Tidak ada daya dan kekuatan kecuali dari Allah Yang Maha Tinggi lagi Maha Agung"
+    },
+    {
+      arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
+      meaning: "Ya Tuhanku, lapangkanlah dadaku dan mudahkanlah urusanku"
+    },
+    {
+      arabic: "اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ وَعَافِنِي فِيمَنْ عَافَيْتَ",
+      meaning: "Ya Allah, berilah kami petunjuk sebagaimana Engkau beri petunjuk dan berilah kami kesehatan sebagaimana Engkau beri kesehatan"
+    },
+    {
+      arabic: "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ",
+      meaning: "Ya Tuhan kami, terimalah dari kami, sesungguhnya Engkaulah Yang Maha Mendengar lagi Maha Mengetahui"
+    },
+    {
+      arabic: "سُبْحَانَ اللهِ وَبِحَمْدِهِ سُبْحَانَ اللهِ الْعَظِيمِ",
+      meaning: "Maha Suci Allah dengan segala puji-Nya, Maha Suci Allah Yang Maha Agung"
     }
   ];
 
@@ -62,11 +78,11 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  // Ganti doa setiap 10 detik
+  // Ganti doa setiap 12 detik (6 doa x 12 detik = 72 detik per siklus)
   useEffect(() => {
     const doaTimer = setInterval(() => {
       setCurrentDoaIndex((prevIndex) => (prevIndex + 1) % doas.length);
-    }, 10000);
+    }, 12000);
 
     return () => clearInterval(doaTimer);
   }, []);
@@ -416,7 +432,7 @@ export default function Home() {
             <div>
               <h1 className="tv-next-prayer text-amber-900">Mushola An-Nur</h1>
               <p className="text-amber-700 tv-subtitle font-medium">
-                RT 02/RW 01, Dusun Josari, Desa Salamrejo, Trenggalek
+                RT 02 / RW 01, Dusun Josari, Desa Salamrejo, Karangan, Trenggalek, Jawa Timur
               </p>
             </div>
           </div>
@@ -446,12 +462,10 @@ export default function Home() {
       {/* Main Content - Optimized Grid for 1920x1080 */}
       <main className="tv-main flex-1 grid grid-cols-4 grid-rows-2 gap-3 tv-padding-sm">
         {/* Clock - Enhanced for Distance Viewing */}
-        <div className="col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 tv-padding-md text-center">
+        <div className="col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 tv-padding-md flex flex-col justify-center items-center text-center">
           <h2 className="text-[#dfb631] font-bold tv-prayer-name mb-2">Waktu Saat Ini</h2>
-          <div className="tv-clock-container mb-3">
-            <div className="tv-clock tv-clock-emphasis text-amber-900">
-              {formatTime(currentTime)}
-            </div>
+          <div className="tv-clock tv-clock-emphasis text-amber-900 mb-3">
+            {formatTime(currentTime)}
           </div>
           <div className="text-amber-700 tv-date tv-high-contrast">
             {formatDate(currentTime)}
@@ -459,7 +473,7 @@ export default function Home() {
         </div>
 
         {/* Hijri Date - Compact */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 tv-padding-md text-center">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-[#dfb631]/20 tv-padding-md flex flex-col justify-center items-center text-center">
           <h2 className="text-[#dfb631] font-bold tv-prayer-name mb-2">Tanggal Hijriyah</h2>
           {hijriDate ? (
             <>
@@ -479,7 +493,7 @@ export default function Home() {
         </div>
 
         {/* Next Prayer - Compact */}
-        <div className="bg-gradient-to-r from-[#dfb631] to-amber-500 rounded-2xl shadow-xl tv-padding-md text-white text-center prayer-active">
+        <div className="bg-gradient-to-r from-[#dfb631] to-amber-500 rounded-2xl shadow-xl tv-padding-md text-white flex flex-col justify-center items-center text-center prayer-active">
           <h2 className="tv-prayer-name font-bold mb-2">Sholat Berikutnya</h2>
           {nextPrayer.name && (
             <>
