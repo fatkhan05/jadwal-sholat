@@ -18,7 +18,57 @@ body {
   color: var(--foreground);
   /* background: var(--background); */
   background-image: url('../assets/image/vector4.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dfb631;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c5a52a;
+}
+
+/* Islamic pattern animation */
+@keyframes islamic-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(223, 182, 49, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(223, 182, 49, 0.6);
+  }
+}
+
+.islamic-glow {
+  animation: islamic-glow 3s ease-in-out infinite;
+}
+
+/* Pulse animation for prayer times */
+@keyframes prayer-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.prayer-active {
+  animation: prayer-pulse 2s ease-in-out infinite;
 }
 
 @layer utilities {

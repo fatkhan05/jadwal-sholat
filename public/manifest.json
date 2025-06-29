@@ -1,0 +1,67 @@
+{
+  "name": "Jadwal Sholat Mushola An-Nur",
+  "short_name": "Jadwal Sholat",
+  "description": "Aplikasi jadwal sholat lima waktu dengan tanggal Hijriyah untuk Mushola An-Nur, Salamrejo, Karangan, Trenggalek",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#dfb631",
+  "theme_color": "#dfb631",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "id",
+  "categories": ["religion", "lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "/favicons.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshot-desktop.png", 
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Jadwal Sholat Hari Ini",
+      "short_name": "Jadwal Hari Ini",
+      "description": "Lihat jadwal sholat lima waktu hari ini",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "dir": "ltr",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+} 
