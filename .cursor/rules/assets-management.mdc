@@ -1,5 +1,42 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+# Assets Management
+
+## Struktur Assets
+- **Direktori utama**: [assets/](mdc:assets)
+- **Images**: [assets/image/](mdc:assets/image)
+- **Icons**: [assets/icon/](mdc:assets/icon)
+
+## Image Assets
+- **Logo Masjid**: [assets/image/logo_masjid.png](mdc:assets/image/logo_masjid.png)
+- **Timer Logo**: [assets/image/timera-logo.png](mdc:assets/image/timera-logo.png)
+- **Background Vectors**: 
+  - [assets/image/vector_bg.jpeg](mdc:assets/image/vector_bg.jpeg)
+  - [assets/image/vector2.png](mdc:assets/image/vector2.png)
+  - [assets/image/vector3.jpg](mdc:assets/image/vector3.jpg)
+  - [assets/image/vector4.jpg](mdc:assets/image/vector4.jpg)
+
+## Import Conventions
+- Gunakan `@/` alias untuk import dari root directory
+- Contoh: `import LogoMasjid from "@/assets/image/logo_masjid.png"`
+- Gunakan PascalCase untuk variable names saat import images
+
+## Optimisasi Image
+- Selalu gunakan Next.js Image component
+- Tentukan width dan height untuk better performance
+- Gunakan appropriate image formats (PNG untuk logo, JPEG untuk photos)
+- Pertimbangkan lazy loading untuk images yang tidak immediately visible
+
+## Naming Conventions
+- Gunakan snake_case untuk nama file
+- Gunakan descriptive names (contoh: `logo_masjid.png`)
+- Kelompokkan berdasarkan jenis (logo, background, icons)
+
+## Best Practices
+- Kompres images sebelum menambahkan ke proyek
+- Gunakan appropriate file formats
+- Pertimbangkan responsive images untuk berbagai screen sizes
+- Buat backup untuk assets penting

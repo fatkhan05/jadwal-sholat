@@ -1,5 +1,49 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+# Islamic Features & Guidelines
+
+## Prayer Schedule (Jadwal Sholat)
+- **Subuh**: Waktu fajar sebelum matahari terbit
+- **Dzuhur**: Waktu siang setelah matahari melewati zenith
+- **Ashar**: Waktu sore sebelum matahari tenggelam
+- **Maghrib**: Waktu setelah matahari tenggelam
+- **Isya**: Waktu malam setelah mega merah hilang
+
+## Location Specific
+- **Lokasi**: RT 02/RW 01, Dusun Josari, Desa Salamrejo, Kecamatan Karangan, Kabupaten Trenggalek
+- **Koordinat**: Perlu ditentukan untuk akurasi waktu sholat
+- **Timezone**: WIB (UTC+7)
+
+## Design Guidelines Islamic
+- **Warna Utama**: Emas (#dfb631) - melambangkan kemewahan spiritual
+- **Typography**: Gunakan font yang clean dan readable
+- **Layout**: Simple, elegant, tidak berlebihan
+- **Imagery**: Gunakan pola Islamic, hindari gambar makhluk hidup
+
+## Fitur yang Dapat Dikembangkan
+- **Real-time Clock**: Menampilkan waktu saat ini
+- **Prayer Timer**: Countdown ke waktu sholat berikutnya
+- **Qibla Direction**: Arah kiblat dari lokasi mushola
+- **Islamic Calendar**: Tanggal Hijriah
+- **Daily Quotes**: Hadits atau ayat Al-Quran harian
+- **Announcement**: Pengumuman kegiatan mushola
+
+## Data Sources
+- **Prayer Times API**: Pertimbangkan menggunakan API seperti Aladhan atau islamic-network
+- **Location Data**: Gunakan coordinates yang akurat
+- **Islamic Calendar**: API kalender Hijriah
+
+## Accessibility (Islamic Context)
+- Pastikan mudah dibaca untuk jamaah berbagai usia
+- Ukuran font yang cukup besar untuk elderly
+- Kontras warna yang baik
+- Support untuk screen readers
+
+## Content Guidelines
+- Gunakan bahasa Indonesia yang sopan dan baku
+- Include doa-doa pendek jika relevan
+- Pastikan informasi waktu sholat akurat
+- Sertakan informasi kontak mushola jika diperlukan

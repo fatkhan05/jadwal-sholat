@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LogoMasjid from "@/assets/image/logo_masjid.png";
 
 export default function Home() {
@@ -12,6 +12,12 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [nextPrayer, setNextPrayer] = useState({ name: '', time: '', remaining: '' });
   const [currentDoaIndex, setCurrentDoaIndex] = useState(0);
+  const [alarmEnabled, setAlarmEnabled] = useState(false);
+  const [showAlarmModal, setShowAlarmModal] = useState(false);
+  const [currentPrayerAlert, setCurrentPrayerAlert] = useState('');
+  const [notificationPermission, setNotificationPermission] = useState('default');
+  const audioRef = useRef(null);
+  const lastAlarmTime = useRef('');
 
   // Koordinat Desa Salamrejo, Karangan, Trenggalek
   const LATITUDE = -8.0669000;
@@ -41,6 +47,24 @@ export default function Home() {
     }
   ];
 
+  // Request notification permission saat component mount
+  useEffect(() => {
+    if ('Notification' in window) {
+      setNotificationPermission(Notification.permission);
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+          setNotificationPermission(permission);
+        });
+      }
+    }
+
+    // Load alarm setting dari localStorage
+    const savedAlarmSetting = localStorage.getItem('alarmEnabled');
+    if (savedAlarmSetting !== null) {
+      setAlarmEnabled(JSON.parse(savedAlarmSetting));
+    }
+  }, []);
+
   // Update waktu setiap detik
   useEffect(() => {
     const timer = setInterval(() => {
@@ -58,6 +82,110 @@ export default function Home() {
 
     return () => clearInterval(doaTimer);
   }, []);
+
+  // Check alarm waktu sholat
+  useEffect(() => {
+    if (prayerTimes && alarmEnabled) {
+      const prayers = [
+        { name: 'Subuh', time: prayerTimes.Fajr },
+        { name: 'Dzuhur', time: prayerTimes.Dhuhr },
+        { name: 'Ashar', time: prayerTimes.Asr },
+        { name: 'Maghrib', time: prayerTimes.Maghrib },
+        { name: 'Isya', time: prayerTimes.Isha }
+      ];
+
+      const now = new Date();
+      const currentTimeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+      for (const prayer of prayers) {
+        const prayerTimeString = prayer.time.substring(0, 5);
+        
+        // Cek apakah waktu sholat sudah tiba dan belum ada alarm untuk waktu ini
+        if (currentTimeString === prayerTimeString && lastAlarmTime.current !== prayerTimeString) {
+          triggerPrayerAlarm(prayer.name);
+          lastAlarmTime.current = prayerTimeString;
+          break;
+        }
+      }
+    }
+  }, [currentTime, prayerTimes, alarmEnabled]);
+
+  // Fungsi untuk memainkan alarm
+  const triggerPrayerAlarm = (prayerName) => {
+    setCurrentPrayerAlert(prayerName);
+    setShowAlarmModal(true);
+
+    // Browser notification
+    if (notificationPermission === 'granted') {
+      new Notification(`Waktu ${prayerName} Telah Tiba`, {
+        body: `Saatnya melaksanakan sholat ${prayerName}. Ayo segera ambil wudhu dan bersiap-siap sholat.`,
+        icon: '/favicons.ico',
+        badge: '/favicons.ico',
+        tag: 'prayer-time',
+        requireInteraction: true,
+        vibrate: [200, 100, 200, 100, 200, 100, 200],
+      });
+    }
+
+    // Audio notification
+    playAlarmSound();
+
+    // Auto close modal setelah 30 detik
+    setTimeout(() => {
+      setShowAlarmModal(false);
+    }, 30000);
+  };
+
+  // Fungsi untuk memainkan suara alarm
+  const playAlarmSound = () => {
+    try {
+      // Membuat audio context untuk suara alarm
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Membuat suara alarm simple menggunakan oscillator
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Frekuensi untuk suara adzan-like
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.5);
+      oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 1);
+      oscillator.frequency.exponentialRampToValueAtTime(650, audioContext.currentTime + 1.5);
+      oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 2);
+      
+      // Volume control
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 5);
+      
+      oscillator.type = 'sine';
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 5);
+      
+    } catch (error) {
+      console.log('Audio context not supported:', error);
+      // Fallback dengan beep sederhana
+      try {
+        const audio = new Audio();
+        audio.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1QQTBRRUFUVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVURAEAAA=';
+        audio.play().catch(e => console.log('Audio play failed:', e));
+      } catch (fallbackError) {
+        console.log('Fallback audio failed:', fallbackError);
+      }
+    }
+  };
+
+  // Toggle alarm setting
+  const toggleAlarm = () => {
+    const newAlarmState = !alarmEnabled;
+    setAlarmEnabled(newAlarmState);
+    localStorage.setItem('alarmEnabled', JSON.stringify(newAlarmState));
+    
+    // Reset last alarm time ketika setting berubah
+    lastAlarmTime.current = '';
+  };
 
   // Ambil data jadwal sholat dan tanggal Hijriyah
   useEffect(() => {
@@ -203,6 +331,40 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+      {/* Modal Alarm Waktu Sholat */}
+      {showAlarmModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-pulse">
+            <div className="text-6xl mb-4">🕌</div>
+            <h2 className="text-2xl font-bold text-[#dfb631] mb-2">
+              Waktu {currentPrayerAlert} Telah Tiba!
+            </h2>
+            <p className="text-amber-700 mb-6">
+              Saatnya melaksanakan sholat {currentPrayerAlert}.<br/>
+              Ayo segera ambil wudhu dan bersiap-siap sholat.
+            </p>
+            <div className="space-y-3">
+              <button
+                onClick={() => setShowAlarmModal(false)}
+                className="w-full bg-[#dfb631] hover:bg-amber-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+              >
+                Barakallahu fiik 🤲
+              </button>
+              <button
+                onClick={() => {
+                  setShowAlarmModal(false);
+                  setAlarmEnabled(false);
+                  localStorage.setItem('alarmEnabled', 'false');
+                }}
+                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-medium transition-colors"
+              >
+                Matikan Alarm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="w-full bg-gradient-to-r from-[#dfb631]/30 to-amber-200/30 backdrop-blur-sm border-b border-[#dfb631]/20 p-6">
         <div className="max-w-4xl mx-auto flex items-center justify-center space-x-6">
@@ -217,6 +379,35 @@ export default function Home() {
       </header>
 
       <main className="max-w-6xl mx-auto p-4 md:p-6">
+        {/* Alarm Setting */}
+        <div className="mb-6 flex justify-center">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#dfb631]/20 p-4">
+            <div className="flex items-center space-x-3">
+              <span className="text-amber-700 font-medium">Alarm Pengingat Sholat:</span>
+              <button
+                onClick={toggleAlarm}
+                className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none ${
+                  alarmEnabled ? 'bg-[#dfb631]' : 'bg-gray-300'
+                }`}
+              >
+                <span
+                  className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform ${
+                    alarmEnabled ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+              <span className={`text-sm font-medium ${alarmEnabled ? 'text-[#dfb631]' : 'text-gray-500'}`}>
+                {alarmEnabled ? '🔔 Aktif' : '🔕 Nonaktif'}
+              </span>
+            </div>
+            {alarmEnabled && (
+              <p className="text-xs text-amber-600 mt-2 text-center">
+                Alarm akan berbunyi tepat saat waktu sholat tiba
+              </p>
+            )}
+          </div>
+        </div>
+
         {/* Waktu Saat Ini & Tanggal Hijriyah */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Jam Digital */}

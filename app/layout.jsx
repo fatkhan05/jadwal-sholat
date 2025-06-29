@@ -37,7 +37,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: '/api/og', // Next.js akan generate ini
+        url: '/api/og',
         width: 1200,
         height: 630,
         alt: 'Jadwal Sholat Mushola An-Nur',
@@ -67,15 +67,16 @@ export const metadata = {
     apple: '/favicons.ico',
   },
   manifest: '/manifest.json',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
+  category: 'religion',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
   themeColor: '#dfb631',
   colorScheme: 'light',
-  category: 'religion',
 };
 
 export default function RootLayout({ children }) {

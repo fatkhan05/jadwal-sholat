@@ -1,5 +1,32 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+# Proyek Jadwal Sholat Mushola An-Nur
+
+## Deskripsi Proyek
+Ini adalah aplikasi web Next.js untuk menampilkan jadwal sholat Mushola An-Nur. Aplikasi ini dibuat untuk membantu jamaah mengetahui waktu-waktu sholat dan informasi terkait kegiatan mushola.
+
+## Teknologi yang Digunakan
+- **Framework**: Next.js 14.2.24 dengan App Router
+- **Styling**: Tailwind CSS
+- **Font**: Geist Sans dan Geist Mono (custom fonts)
+- **Package Manager**: npm
+- **Bahasa**: JavaScript/JSX
+
+## Struktur Utama
+- Entry point utama: [app/page.jsx](mdc:app/page.jsx)
+- Layout aplikasi: [app/layout.jsx](mdc:app/layout.jsx)
+- Styling global: [app/globals.css](mdc:app/globals.css)
+- Konfigurasi: [package.json](mdc:package.json), [tailwind.config.js](mdc:tailwind.config.js)
+- Assets: Disimpan di direktori [assets/](mdc:assets)
+
+## Lokasi Mushola
+RT 02/RW 01, Dusun Josari, Desa Salamrejo, Kecamatan Karangan, Kabupaten Trenggalek
+
+## Development Guidelines
+- Gunakan bahasa Indonesia untuk komentar dan dokumentasi
+- Follow best practices Next.js dengan App Router
+- Gunakan Tailwind CSS untuk styling yang konsisten
+- Pastikan aplikasi responsive untuk berbagai device
