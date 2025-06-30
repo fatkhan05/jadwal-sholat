@@ -3,3 +3,51 @@ description:
 globs:
 alwaysApply: false
 ---
+# Development Workflow
+
+## NPM Scripts
+Definisi di [package.json](mdc:package.json):
+- `npm run dev`: Menjalankan development server
+- `npm run build`: Build aplikasi untuk production
+- `npm run start`: Menjalankan production server
+- `npm run lint`: Menjalankan ESLint untuk code quality
+
+## Development Environment
+- **Node.js**: Pastikan menggunakan versi yang kompatibel
+- **Browser**: Test di berbagai browser modern
+- **Hot Reload**: Available dalam development mode
+
+## Code Quality
+- Follow ESLint rules yang sudah dikonfigurasi
+- Gunakan Prettier untuk code formatting yang konsisten
+- Pastikan no console.log di production code
+
+## Component Development
+- Buat komponen yang reusable dan modular
+- Gunakan PropTypes atau TypeScript untuk type checking (future improvement)
+- Dokumentasikan props dan usage untuk komponen complex
+
+## Performance Considerations
+- Gunakan Next.js Image component untuk optimisasi gambar
+- Implement lazy loading untuk content yang tidak immediately visible
+- Minimize bundle size dengan tree shaking
+
+## Islamic App Considerations
+- Pastikan akurasi waktu sholat sesuai dengan lokasi
+- Gunakan warna dan design yang sesuai dengan nuansa Islamic
+- Pertimbangkan fitur-fitur seperti:
+  - Jadwal sholat 5 waktu
+  - Arah kiblat
+  - Pengingat adzan
+  - Kalender Hijriah
+
+## Testing Strategy
+- Test responsiveness di berbagai device
+- Verify prayer times accuracy
+- Check performance pada connection lambat
+- Validate accessibility features
+
+## Deployment
+- Build dan test sebelum deploy
+- Pastikan environment variables sudah diset
+- Monitor performance setelah deployment

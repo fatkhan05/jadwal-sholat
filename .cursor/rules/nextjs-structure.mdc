@@ -3,3 +3,31 @@ description:
 globs:
 alwaysApply: false
 ---
+# Next.js App Router Structure
+
+## App Directory Structure
+Proyek ini menggunakan Next.js 14 dengan App Router. Semua file routing berada di direktori `app/`.
+
+## File Utama
+- **[app/layout.jsx](mdc:app/layout.jsx)**: Root layout yang membungkus semua halaman
+- **[app/page.jsx](mdc:app/page.jsx)**: Halaman utama (homepage)
+- **[app/globals.css](mdc:app/globals.css)**: Global styling dan Tailwind CSS imports
+
+## Konvensi Penamaan
+- Gunakan `.jsx` untuk komponen React
+- Gunakan PascalCase untuk nama komponen
+- Gunakan kebab-case untuk nama file asset
+
+## Font Management
+- Custom fonts dimuat di [app/layout.jsx](mdc:app/layout.jsx)
+- Font files tersimpan di [app/fonts/](mdc:app/fonts/)
+- Gunakan CSS variables untuk font family
+
+## Metadata
+- Metadata aplikasi didefinisikan di [app/layout.jsx](mdc:app/layout.jsx)
+- Update title dan description sesuai dengan fungsi aplikasi
+
+## Best Practices
+- Gunakan App Router conventions untuk routing
+- Letakkan komponen reusable di direktori terpisah jika diperlukan
+- Gunakan Image component dari Next.js untuk optimisasi gambar

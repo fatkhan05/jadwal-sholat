@@ -3,3 +3,34 @@ description:
 globs:
 alwaysApply: false
 ---
+# Styling Guidelines dengan Tailwind CSS
+
+## Konfigurasi Tailwind
+- Konfigurasi utama: [tailwind.config.js](mdc:tailwind.config.js)
+- PostCSS config: [postcss.config.mjs](mdc:postcss.config.mjs)
+- Global styles: [app/globals.css](mdc:app/globals.css)
+
+## Color Scheme
+- Primary color: `#dfb631` (warna emas untuk tema Islamic)
+- Gunakan opacity variants untuk variasi warna (contoh: `bg-[#dfb631]/20`)
+
+## Typography
+- Font utama: Geist Sans (variable: `--font-geist-sans`)
+- Font monospace: Geist Mono (variable: `--font-geist-mono`)
+- Gunakan `font-bold` untuk headings
+- Gunakan `font-semibold` untuk sub-headings
+
+## Layout Guidelines
+- Gunakan flexbox untuk layout (`flex`, `items-center`, `justify-center`)
+- Gunakan responsive breakpoints (`sm:`, `md:`, `lg:`, `xl:`)
+- Padding konsisten menggunakan spacing scale Tailwind
+
+## Component Styling
+- Gunakan utility-first approach
+- Buat custom CSS classes hanya jika diperlukan
+- Gunakan arbitrary values dengan hati-hati (contoh: `w-[70px]`)
+
+## Image Styling
+- Gunakan Next.js Image component untuk optimisasi
+- Konsisten dalam sizing (contoh: `w-32` untuk logo)
+- Pertimbangkan aspect ratio untuk berbagai screen size
