@@ -48,13 +48,13 @@ body {
 }
 
 .tv-subtitle {
-  font-size: 1.2rem !important; /* Reduced from 1.8rem */
+  font-size: 1.4rem !important; /* Reduced from 1.8rem */
   font-weight: 600;
 }
 
 /* Enhanced clock styles for maximum visibility from 3+ meters - Clean Version */
 .tv-clock {
-  font-size: 7rem !important; /* 112px - Very large for distance viewing */
+  font-size: 10rem !important; /* 112px - Very large for distance viewing */
   font-weight: 900;
   line-height: 0.9;
   font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;

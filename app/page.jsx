@@ -4,6 +4,63 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import LogoMasjid from "@/assets/image/logo_masjid.png";
 
+// Fungsi untuk estimasi tanggal Hijriyah sebagai fallback
+const estimateHijriDate = (gregorianDate) => {
+  // Estimasi berdasarkan perhitungan asli: 1 Muharram 1447 H = 7 Juli 2025 M
+  const muharram1_1447 = new Date('2025-07-07');
+  const daysDiff = Math.floor((gregorianDate - muharram1_1447) / (1000 * 60 * 60 * 24));
+  
+  // Bulan Hijriyah dan jumlah harinya
+  const hijriMonths = [
+    { name: 'Muharram', days: 30 },
+    { name: 'Safar', days: 29 },
+    { name: 'Rabi ul-Awwal', days: 30 },
+    { name: 'Rabi ul-Akhir', days: 29 },
+    { name: 'Jumada ul-Awwal', days: 30 },
+    { name: 'Jumada ul-Akhir', days: 29 },
+    { name: 'Rajab', days: 30 },
+    { name: 'Shaban', days: 29 },
+    { name: 'Ramadan', days: 30 },
+    { name: 'Shawwal', days: 29 },
+    { name: 'Dhu al-Qadah', days: 30 },
+    { name: 'Dhu al-Hijjah', days: 29 }
+  ];
+  
+  let year = 1447;
+  let totalDays = daysDiff + 1; // +1 karena menghitung dari hari ke-1
+  
+  // Jika tanggal sebelum 1 Muharram 1447
+  if (totalDays < 1) {
+    year = 1446;
+    totalDays = 354 + totalDays; // 354 hari dalam setahun Hijriyah
+  }
+  
+  // Cari bulan dan tanggal
+  let monthIndex = 0;
+  while (totalDays > hijriMonths[monthIndex].days && monthIndex < 11) {
+    totalDays -= hijriMonths[monthIndex].days;
+    monthIndex++;
+  }
+  
+  const date = totalDays;
+  const weekdays = ['Al Ahad', 'Al Ithnayn', 'Ath Thulatha', 'Al Arba', 'Al Khamis', 'Al Jumah', 'As Sabt'];
+  const weekday = weekdays[gregorianDate.getDay()];
+  
+  return {
+    date: date.toString(),
+    month: {
+      number: monthIndex + 1,
+      en: hijriMonths[monthIndex].name,
+      ar: hijriMonths[monthIndex].name // Simplified
+    },
+    year: year.toString(),
+    weekday: {
+      en: weekday,
+      ar: weekday // Simplified
+    }
+  };
+};
+
 export default function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [prayerTimes, setPrayerTimes] = useState(null);
@@ -218,33 +275,51 @@ export default function Home() {
         }
         
         const data = await response.json();
-        console.log('API Response:', data);
+        console.log('Full API Response:', data);
+        console.log('Hijri Data from API:', data.data?.date?.hijri);
         
         if (data.code === 200 && data.data) {
           // Set jadwal sholat
           setPrayerTimes(data.data.timings);
           
-          // Set tanggal Hijriyah dengan koreksi untuk 29 Juni 2025 = 3 Muharram 1447
-          let hijriData = data.data.date.hijri;
+          // Set tanggal Hijriyah langsung dari API (data sudah benar)
+          const hijriData = data.data.date.hijri;
           
-          // Force set untuk tanggal 29 Juni 2025 = 3 Muharram 1447
-          // Berdasarkan multiple sources, tanggal yang benar adalah 3 Muharram
-          hijriData = {
-            date: '3',
-            month: {
-              number: 1,
-              en: 'Muharram',
-              ar: 'مُحَرَّم'
-            },
-            year: '1447',
-            weekday: {
-              en: 'Al Ahad',
-              ar: 'الأحد'
-            }
+          // Pastikan hanya mengambil angka tanggal saja, bukan format tanggal penuh
+          let cleanDateValue = hijriData.date;
+          
+          // Jika data API berupa format "08-01-1447" atau sejenisnya, ambil hanya bagian tanggal
+          if (typeof cleanDateValue === 'string' && cleanDateValue.includes('-')) {
+            cleanDateValue = cleanDateValue.split('-')[0]; // Ambil bagian pertama sebelum tanda "-"
+          }
+          
+          // Pastikan hanya angka dan hilangkan leading zero
+          cleanDateValue = parseInt(cleanDateValue);
+          
+          // Koreksi: API memberikan tanggal 8, tapi seharusnya 7 
+          cleanDateValue = cleanDateValue - 1;
+          
+          // Handle jika tanggal menjadi 0 atau negatif
+          if (cleanDateValue <= 0) {
+            cleanDateValue = 30; // Asumsikan bulan sebelumnya memiliki 30 hari
+          }
+          
+          cleanDateValue = cleanDateValue.toString();
+          
+          const cleanHijriData = {
+            date: cleanDateValue,
+            month: hijriData.month,
+            year: hijriData.year,
+            weekday: hijriData.weekday
           };
           
-          setHijriDate(hijriData);
-          console.log('Hijri Date Set: 3 Muharram 1447');
+          setHijriDate(cleanHijriData);
+          console.log('Raw hijriData.date from API:', hijriData.date);
+          console.log('Raw hijriData.date type:', typeof hijriData.date);
+          console.log('After parsing cleanDateValue:', cleanDateValue);
+          console.log('cleanHijriData.date set to state:', cleanHijriData.date);
+          console.log('Full Hijri Date from API (Original):', `${hijriData.date} ${hijriData.month.en} ${hijriData.year}`);
+          console.log('Clean Hijri Date Set:', `${cleanHijriData.date} ${cleanHijriData.month.en} ${cleanHijriData.year}`);
         } else {
           throw new Error('Data tidak valid dari API');
         }
@@ -262,22 +337,16 @@ export default function Home() {
           Isha: '19:00'
         };
         
-        const fallbackHijriDate = {
-          date: '3',
-          month: {
-            number: 1,
-            en: 'Muharram',
-            ar: 'مُحَرَّم'
-          },
-          year: '1447',
-          weekday: {
-            en: 'Al Ahad',
-            ar: 'الأحد'
-          }
-        };
+        // Fallback Hijri date - coba perhitungan sederhana untuk estimasi
+        const today = new Date();
+        const hijriEstimate = estimateHijriDate(today);
+        
+        // Terapkan koreksi yang sama untuk fallback data
+        const correctedFallbackDate = (parseInt(hijriEstimate.date) - 1);
+        hijriEstimate.date = correctedFallbackDate > 0 ? correctedFallbackDate.toString() : "30";
         
         setPrayerTimes(fallbackPrayerTimes);
-        setHijriDate(fallbackHijriDate);
+        setHijriDate(hijriEstimate);
         setError('Menggunakan data offline - ' + error.message);
         setLoading(false);
         
@@ -477,14 +546,11 @@ export default function Home() {
           <h2 className="text-[#dfb631] font-bold tv-prayer-name mb-2">Tanggal Hijriyah</h2>
           {hijriDate ? (
             <>
-              <div className="tv-hijri-date text-amber-900 mb-2 tv-high-contrast">
+              <div className="tv-hijri-date text-amber-900 mb-3 tv-high-contrast">
                 {hijriDate.date}
               </div>
-              <div className="text-amber-700 tv-hijri-month tv-high-contrast">
-                {hijriDate.month.en} {hijriDate.year}
-              </div>
-              <div className="text-amber-600 tv-subtitle mt-1">
-                {hijriDate.weekday.en}
+              <div className="text-amber-700 tv-hijri-month tv-high-contrast mb-1">
+                {hijriDate.month.en} {hijriDate.year} H
               </div>
             </>
           ) : (
